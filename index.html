@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Video Summarizer By Gaurav</title>
+    <title>YouTube Video Summarizer</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -232,7 +232,7 @@
     </div>
 
     <footer>
-        <p>© 2025 YouTube Video Summarizer. All rights reserved.</p>
+        <p>© 2023 YouTube Video Summarizer. All rights reserved.</p>
         <p>Powered by advanced AI technology for quick and accurate summaries.</p>
         <p class="developer">Developer: Gaurav Singh Tomar</p>
         <p>Stay connected for updates and more tools!</p>
@@ -253,7 +253,11 @@
                 const response = await fetch(apiUrl);
                 if (!response.ok) throw new Error('Failed to fetch summary. Please check the URL and try again.');
                 const data = await response.json();
-                summaryDiv.innerHTML = `<h3>Summary:</h3><p>${data.summary || 'No summary available.'}</p>`;
+                if (data.error) {
+                    throw new Error('API returned an error.');
+                }
+                const summaryContent = `<h3>Summary:</h3><pre>${data.result || 'No summary available.'}</pre>`;
+                summaryDiv.innerHTML = summaryContent;
             } catch (error) {
                 summaryDiv.innerHTML = `<p style="color: #ff6b6b; font-weight: 500;">Error: ${error.message}</p>`;
             }
